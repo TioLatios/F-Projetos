@@ -1,0 +1,32 @@
+void setup() { // as informações sobre quais pinos são de saída ou de entrada.
+
+  // os sensores são responsáveis por checar se o robô está seguindo a linha corretamente. São portanto, entradas.
+  pinMode(sen1, INPUT); // entrada do primeiro sensor de linha (esquerdo).
+  pinMode(sen2, INPUT); // entrada do segundo sensor de linha (direito).
+
+  // os motores são responsáveis por mover o carrinho durante o percurso. Funcionando como saídas.
+  pinMode(motorPWM1, OUTPUT); //saída do motor pwm 1 (esquerdo).
+  pinMode(motorPWM2, OUTPUT); //saída do motor pwm 2 (esquerdo).
+}
+
+void loop() { // loop infinito que fará o robô se mover.
+
+  // Se o sensor esquerdo notar a linha, significa que há uma curva à esquerda.
+  if(!digitalRead(sen1)) {
+    AnalogWrite(pwm1, 0); // o motor da esquerda deve parar.
+    AnalogWrite(pwm2, v2); // e o direito deve aumentar um pouco sua velocidade.
+  }
+
+  // Se o sensor direito notar a linha, significa que há uma curva à direita.
+  if(!digitalRead(sens2)) {
+    AnalogWrite(pwm1, v2); // o motor esquerdo deve aumentar um pouco sua velocidade.
+    AnalogWrite(pwm2, 0); // o motor direito deve parar.
+  }
+
+  // Se nenhum dos sensores notar algo, significa que ele está passando por uma linha reta.
+  else {
+    AnalogWrite(pwm1, v1); // ambos os motores podem andar um pouco mais devagar e na mesma velocidade.
+    AnalogWrite(pwm2, v1);
+  }
+}
+// pwm regula a veloc do motor e da maior precisão para o carrinho fazer curvas fechadas. variação do valor médio
